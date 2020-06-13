@@ -1,13 +1,19 @@
 -module(exchange).
 
--export([start/0, startupDisplay/1]).
+-export([start/0]).
 
 start() ->
-	{_, Communication} = file:consult("calls.txt"),
+	{_, Filedata} = file:consult("calls.txt"),
 	io:format("~s.~n",["*** Calls to be made ***"]),
-	startupDisplay(Communication).
-   
-startupDisplay(Communication) ->
-	lists:map(fun({Sender, ReceiverList}) -> 
-		io:format("~w: ~w.~n",[Sender,ReceiverList]) end, Communication),
-	io:format("~s",["\n"]).
+	startupDisplay(Filedata).
+	% io:format("~w",[Filedata]),
+	% Communication = maps:from_list(Filedata),
+	
+
+startupDisplay([]) -> 
+	io:format("~s",["\n"]);
+
+startupDisplay([Head|Tail]) ->
+	{Sender, ReceiverList} = Head,
+	io:format("~w: ~w~n",[Sender, ReceiverList]),
+	startupDisplay(Tail).
