@@ -25,7 +25,7 @@ startupDisplay([Head|Tail]) ->
 
 initiateCommunication()->
     receive
-		{Sender, Receiver, Timestamp, intro} ->
+    	{Sender, Receiver, Timestamp, intro} ->
             io:fwrite("~w received intro message from ~w [~w]",[Sender, Receiver, Timestamp]),
             io:format("~s",["\n"]),
             initiateCommunication();

@@ -7,8 +7,8 @@ interaction(Sender, ReceiverList, MasterID) ->
     receive
             {Receiver, Timestamp, intro} -> 
             	timer:sleep(rand:uniform(100)),
-				MasterID!{Sender, Receiver, Timestamp, intro},
-                Receiver!{Sender, Timestamp, reply},
+            	MasterID!{Sender, Receiver, Timestamp, intro},
+            	Receiver!{Sender, Timestamp, reply},
                 interaction(Sender, ReceiverList, MasterID);
 
             {Receiver, Timestamp, reply} ->  
@@ -23,10 +23,9 @@ interaction(Sender, ReceiverList, MasterID) ->
 
 initiateSlaveCommunication(Sender, ReceiverList, MasterID) ->
 
- 	timer:sleep(100),
+ 	timer:sleep(rand:uniform(100)),
     lists:foreach(fun(Receiver) ->
     	{_,_, Timestamp} = erlang:timestamp(),
     	Receiver ! {Sender, Timestamp, intro}
-		end, ReceiverList
-	),
+	end, ReceiverList),
 	interaction(Sender, ReceiverList, MasterID).
