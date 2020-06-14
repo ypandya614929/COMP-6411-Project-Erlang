@@ -30,7 +30,7 @@ initiateCommunication()->
             io:format("~s",["\n"]),
             initiateCommunication();
 
-		{Sender, Receiver, Timestamp, reply} ->
+	{Sender, Receiver, Timestamp, reply} ->
             io:fwrite("~w received reply message from ~w [~w]",[Sender, Receiver, Timestamp]),
             io:format("~s",["\n"]),
             initiateCommunication()
