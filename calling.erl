@@ -8,7 +8,6 @@
 -export([interaction/3, initiateSlaveCommunication/3]).
 -define(PROCESS_WAIT_TIME, 5000).
 
-
 interaction(Sender, ReceiverList, MasterID) ->
    
     receive
@@ -28,11 +27,9 @@ interaction(Sender, ReceiverList, MasterID) ->
 
     end.
 
-
 createTimestamp() ->
     {_,_,Timestamp} = erlang:timestamp(),
     Timestamp.
-
 
 initiateSlaveCommunication(Sender, ReceiverList, MasterID) ->
 	
@@ -41,7 +38,6 @@ initiateSlaveCommunication(Sender, ReceiverList, MasterID) ->
     	Receiver ! {Sender, createTimestamp(), intro}
 	end, ReceiverList),
 	interaction(Sender, ReceiverList, MasterID).
-
 
 goodByeSlave(Sender) ->
     io:format("~nProcess ~w has received no calls for ~w second, ending...~n",[Sender, ?PROCESS_WAIT_TIME div 1000]).

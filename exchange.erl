@@ -8,7 +8,6 @@
 -export([start/0, initiateCommunication/0]).
 -define(MASTER_WAIT_TIME, 10000).
 
-
 start() ->
 	{_, Filedata} = file:consult("calls.txt"),
 	io:format("~s.~n",["** Calls to be made **"]),
@@ -22,16 +21,13 @@ start() ->
 	end,ok, Communication),
 	initiateCommunication().
 
-
 startupDisplay([]) -> 
 	io:format("~s",["\n"]);
-
 
 startupDisplay([Head|Tail]) ->
 	{Sender, ReceiverList} = Head,
 	io:format("~w: ~w~n",[Sender, ReceiverList]),
 	startupDisplay(Tail).
-
 
 initiateCommunication()->
     receive
@@ -49,7 +45,6 @@ initiateCommunication()->
 			goodByeMaster()
 
     end.
-
 
 goodByeMaster() ->
 	io:format("~nMaster has received no replies for ~w seconds, ending....~n",[?MASTER_WAIT_TIME div 1000]).
