@@ -1,7 +1,6 @@
 %% Yash Pandya - 40119272
 
 -module(exchange).
-
 %% ====================================================================
 %% API functions
 %% ====================================================================
@@ -12,22 +11,23 @@ start() ->
 	{_, Filedata} = file:consult("calls.txt"),
 	io:format("~s.~n",["** Calls to be made **"]),
 	startupDisplay(Filedata),
-	Communication = maps:from_list(Filedata),
-	MasterID = self(),
-	maps:fold(fun(Sender, ReceiverList, ok) ->
-		SlaveId = spawn(calling, initiateSlaveCommunication, [Sender, ReceiverList, MasterID]),
-		register(Sender, SlaveId),
-		io:format("")
-	end,ok, Communication),
+	slaveProcessRegistration(Filedata),
 	initiateCommunication().
 
-startupDisplay([]) -> 
-	io:format("~s",["\n"]);
+startupDisplay([]) -> io:format("~s",["\n"]);
 
 startupDisplay([Head|Tail]) ->
 	{Sender, ReceiverList} = Head,
 	io:format("~w: ~w~n",[Sender, ReceiverList]),
 	startupDisplay(Tail).
+
+slaveProcessRegistration([]) -> ok;
+
+slaveProcessRegistration([Head|Tail]) ->
+	{Sender, ReceiverList} = Head,
+	SlaveId = spawn(calling, initiateSlaveCommunication, [Sender, ReceiverList, self()]),
+	register(Sender, SlaveId),
+	slaveProcessRegistration(Tail).
 
 initiateCommunication()->
     receive
@@ -43,7 +43,7 @@ initiateCommunication()->
 
     after ?MASTER_WAIT_TIME ->
 			goodByeMaster()
-
+			
     end.
 
 goodByeMaster() ->
