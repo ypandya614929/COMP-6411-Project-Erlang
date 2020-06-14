@@ -1,4 +1,10 @@
+%% Yash Pandya - 40119272
+
 -module(calling).
+
+%% ====================================================================
+%% API functions
+%% ====================================================================
 -export([interaction/3, initiateSlaveCommunication/3]).
 -define(PROCESS_WAIT_TIME, 5000).
 
