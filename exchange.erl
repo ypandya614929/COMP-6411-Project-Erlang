@@ -1,10 +1,8 @@
-%% Yash Pandya - 40119272
-
 -module(exchange).
 %% ====================================================================
 %% API functions
 %% ====================================================================
--export([start/0, initiateCommunication/0]).
+-export([start/0]).
 -define(MASTER_WAIT_TIME, 10000).
 
 start() ->
