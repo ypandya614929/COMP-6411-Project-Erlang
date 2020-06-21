@@ -31,7 +31,9 @@ interaction(Sender, MasterID) ->
 
 % generate timestamp and send the intro message
 slaveCommunication(Sender, Receiver) -> 
-    {_,_,Timestamp} = erlang:timestamp(),
+    % commented as it might not run in older erlang versions
+    % {_,_,Timestamp} = erlang:timestamp(),
+    {_,_,Timestamp} = erlang:now(),
     Receiver ! {Sender, Timestamp, intro}.
 
 % send message to each slave (receivers) from the receiverlist
